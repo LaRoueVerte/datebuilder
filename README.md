@@ -1,14 +1,14 @@
-#DateBuilder#
+# DateBuilder
 
-##Creating dates, doing simple operations or comparisons, transforming can be difficult in Java, even with latest versions##
+## Creating dates, doing simple operations or comparisons, transforming can be difficult in Java, even with latest versions
 
-We (La Roue Verte) are sharing this library we've built during years to ease handling java dates. We share it with the community
+We (La Roue Verte) are sharing this library we've built during years to ease handling java dates. We share it with the community.
 
 This code is licensed in Gnu GPL v3
 
 All comments and suggestions are welcomed !
 
-##Usage##
+## Usage
 DateBuilder class contains several "builder" methods to create a new date : 
 
 ```java
