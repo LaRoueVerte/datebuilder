@@ -1,9 +1,7 @@
 package com.laroueverte.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.text.ParseException;
 import java.time.format.DateTimeParseException;
@@ -66,11 +64,11 @@ public class DateBuilderTest extends UnitTest {
 	@Test
 	void xToReach() throws ParseException {
 		DateBuilder isoTimestamp = DateBuilder.isoTimestamp("2015-09-01 08:20:00");
-		assertEquals("1000 milliseconds", 1000, isoTimestamp.getMillisecondsToReach(DateBuilder.isoTimestamp("2015-09-01 08:20:01").getDate()));
-		assertEquals("30 seconds", 30, isoTimestamp.getSecondsToReach(DateBuilder.isoTimestamp("2015-09-01 08:20:30").getDate()));
-		assertEquals("20 minutes", 20, isoTimestamp.getMinutesToReach(DateBuilder.isoTimestamp("2015-09-01 08:40:00").getDate()));
-		assertEquals("3 hours", 3, isoTimestamp.getHoursToReach(DateBuilder.isoTimestamp("2015-09-01 11:20:00").getDate()));
-		assertEquals("4 jours", 4, isoTimestamp.getDaysToReach(DateBuilder.isoTimestamp("2015-09-05 08:20:00").getDate()));
+		assertThat(isoTimestamp.getMillisecondsToReach(DateBuilder.isoTimestamp("2015-09-01 08:20:01").getDate())).isEqualTo(1000);
+		assertThat(isoTimestamp.getSecondsToReach(DateBuilder.isoTimestamp("2015-09-01 08:20:30").getDate())).isEqualTo(30);
+		assertThat(isoTimestamp.getMinutesToReach(DateBuilder.isoTimestamp("2015-09-01 08:40:00").getDate())).isEqualTo(20);
+		assertThat(isoTimestamp.getHoursToReach(DateBuilder.isoTimestamp("2015-09-01 11:20:00").getDate())).isEqualTo(3);
+		assertThat(isoTimestamp.getDaysToReach(DateBuilder.isoTimestamp("2015-09-05 08:20:00").getDate())).isEqualTo(4);
 	}
 
 	@Test
@@ -91,36 +89,36 @@ public class DateBuilderTest extends UnitTest {
 
 		/////////////////////////////////////
 		// GMT format (ending with Z)
-		assertTrue(DateBuilder.iso8601WithTimeZone(iso8601GMT).getTimeInMillis() == okDate.getTime());
+		assertThat(DateBuilder.iso8601WithTimeZone(iso8601GMT).getTimeInMillis()).isEqualTo(okDate.getTime());
 		try {
 			DateBuilder.iso8601InLocalDateTime(iso8601GMT);
 			fail("should be an error");
 		} catch (DateTimeParseException e) {
 			// OK
 		}
-		assertTrue(DateBuilder.iso8601(iso8601GMT).getDate().getTime() == okDate.getTime());
+		assertThat(DateBuilder.iso8601(iso8601GMT).getDate().getTime()).isEqualTo(okDate.getTime());
 
 		/////////////////////////////////////
 		// Time zone format (containing +01:00)
-		assertTrue(DateBuilder.iso8601WithTimeZone(iso8601Paris).getTimeInMillis() == okDate.getTime());
+		assertThat(DateBuilder.iso8601WithTimeZone(iso8601Paris).getTimeInMillis()).isEqualTo(okDate.getTime());
 		try {
 			DateBuilder.iso8601InLocalDateTime(iso8601Paris);
 			fail("should be an error");
 		} catch (DateTimeParseException e) {
 			// OK
 		}
-		assertTrue(DateBuilder.iso8601(iso8601Paris).getTimeInMillis() == okDate.getTime());
+		assertThat(DateBuilder.iso8601(iso8601Paris).getTimeInMillis()).isEqualTo(okDate.getTime());
 
 		/////////////////////////////////////
 		// Time zone format (containing -01:00)
-		assertTrue(DateBuilder.iso8601WithTimeZone(iso8601Minus1).getTimeInMillis() == okDate.getTime());
+		assertThat(DateBuilder.iso8601WithTimeZone(iso8601Minus1).getTimeInMillis()).isEqualTo(okDate.getTime());
 		try {
 			DateBuilder.iso8601InLocalDateTime(iso8601Minus1);
 			fail("should be an error");
 		} catch (DateTimeParseException e) {
 			// OK
 		}
-		assertTrue(DateBuilder.iso8601(iso8601Minus1).getTimeInMillis() == okDate.getTime());
+		assertThat(DateBuilder.iso8601(iso8601Minus1).getTimeInMillis()).isEqualTo(okDate.getTime());
 
 		/////////////////////////////////////
 		// Time zone format (containing +0100) is not supported by java ?
@@ -151,31 +149,31 @@ public class DateBuilderTest extends UnitTest {
 		} catch (DateTimeParseException e) {
 			// OK
 		}
-		assertTrue(DateBuilder.iso8601InLocalDateTime(iso8601Local).getTimeInMillis() == okDate.getTime());
-		assertTrue(DateBuilder.iso8601(iso8601Local).getDate().getTime() == okDate.getTime());
+		assertThat(DateBuilder.iso8601InLocalDateTime(iso8601Local).getTimeInMillis()).isEqualTo(okDate.getTime());
+		assertThat(DateBuilder.iso8601(iso8601Local).getDate().getTime()).isEqualTo(okDate.getTime());
 
 		/////////////////////////////////////
 		// Time zone format summer time (containing +02:00)
-		assertTrue(DateBuilder.iso8601WithTimeZone(iso8601ParisSummer).getTimeInMillis() == okDateSummer.getTime());
+		assertThat(DateBuilder.iso8601WithTimeZone(iso8601ParisSummer).getTimeInMillis()).isEqualTo(okDateSummer.getTime());
 		try {
 			DateBuilder.iso8601InLocalDateTime(iso8601ParisSummer);
 			fail("should be an error");
 		} catch (DateTimeParseException e) {
 			// OK
 		}
-		assertTrue(DateBuilder.iso8601(iso8601ParisSummer).getDate().getTime() == okDateSummer.getTime());
+		assertThat(DateBuilder.iso8601(iso8601ParisSummer).getDate().getTime()).isEqualTo(okDateSummer.getTime());
 	}
 
 	@Test
 	void testMoveToPreviousDay() {
 		// Trim to week go back to previous monday
-		assertEquals(7, DateBuilder.date(2019, 10, 13).moveToPreviousDayOfWeek(2).getDayOfMonth());
-		assertEquals(30, DateBuilder.date(2019, 9, 30).moveToPreviousDayOfWeek(2).getDayOfMonth());
-		assertEquals(30, DateBuilder.date(2019, 10, 2).moveToPreviousDayOfWeek(2).getDayOfMonth());
-		assertEquals(30, DateBuilder.date(2019, 10, 6).moveToPreviousDayOfWeek(2).getDayOfMonth());
-		assertEquals(7, DateBuilder.date(2019, 10, 7).moveToPreviousDayOfWeek(2).getDayOfMonth());
-		assertEquals(7, DateBuilder.date(2019, 10, 8).moveToPreviousDayOfWeek(2).getDayOfMonth());
-		assertEquals(7, DateBuilder.date(2019, 10, 10).moveToPreviousDayOfWeek(2).getDayOfMonth());
+		assertThat(DateBuilder.date(2019, 10, 13).moveToPreviousDayOfWeek(2).getDayOfMonth()).isEqualTo(7);
+		assertThat(DateBuilder.date(2019, 9, 30).moveToPreviousDayOfWeek(2).getDayOfMonth()).isEqualTo(30);
+		assertThat(DateBuilder.date(2019, 10, 2).moveToPreviousDayOfWeek(2).getDayOfMonth()).isEqualTo(30);
+		assertThat(DateBuilder.date(2019, 10, 6).moveToPreviousDayOfWeek(2).getDayOfMonth()).isEqualTo(30);
+		assertThat(DateBuilder.date(2019, 10, 7).moveToPreviousDayOfWeek(2).getDayOfMonth()).isEqualTo(7);
+		assertThat(DateBuilder.date(2019, 10, 8).moveToPreviousDayOfWeek(2).getDayOfMonth()).isEqualTo(7);
+		assertThat(DateBuilder.date(2019, 10, 10).moveToPreviousDayOfWeek(2).getDayOfMonth()).isEqualTo(7);
 	}
 
 	@Nested
