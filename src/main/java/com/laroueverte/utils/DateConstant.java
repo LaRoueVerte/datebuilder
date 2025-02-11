@@ -51,9 +51,7 @@ public class DateConstant {
 	}
 
 	/**
-	 * Builds a new builder based on this one
-	 *
-	 * @return
+	 * @return a new builder based on same date as this one
 	 */
 	public DateBuilder builder() {
 		return DateBuilder.date(getDate());
@@ -105,6 +103,12 @@ public class DateConstant {
 		return this.calendar.getTimeInMillis();
 	}
 
+	/**
+	 *
+	 * @param d1 is the first date to compare
+	 * @param d2 is the second date to compare
+	 * @return the minimum of the two d1 and d2
+	 */
 	public static DateConstant min(DateConstant d1, DateConstant d2) {
 		if (d1.isSameOrBefore(d2.getDate())) {
 			return d1;
@@ -113,6 +117,12 @@ public class DateConstant {
 		}
 	}
 
+	/**
+	 *
+	 * @param d1 is the first date to compare
+	 * @param d2 is the second date to compare
+	 * @return the maximum of the two d1 and d2
+	 */
 	public static DateConstant max(DateConstant d1, DateConstant d2) {
 		if (d1.isSameOrAfter(d2.getDate())) {
 			return d1;
@@ -123,7 +133,7 @@ public class DateConstant {
 
 	/**
 	 *
-	 * @param futureDate is a date in future
+	 * @param futureDate is a future date that will be used to get the seconds difference
 	 * @return the number of seconds between the current date (of this builder) and the supplied date
 	 */
 	public int getSecondsToReach(Date futureDate) {
@@ -131,7 +141,7 @@ public class DateConstant {
 	}
 
 	/**
-	 * @param futureDate
+	 * @param futureDate is a future date that will be used to get the minutes difference
 	 * @return the number of days between those two dates (not including one of them). For instance between 2010-01-25 and 2010-01-26, there is 1 day.
 	 */
 	public int getMinutesToReach(Date futureDate) {
@@ -140,7 +150,7 @@ public class DateConstant {
 
 	/**
 	 *
-	 * @param futureDate is a date in future
+	 * @param futureDate is a future date that will be used to get the hours difference
 	 * @return the number of seconds between the current date (of this builder) and the supplied date
 	 */
 	public int getHoursToReach(Date futureDate) {
@@ -148,17 +158,24 @@ public class DateConstant {
 	}
 
 	/**
-	 * @param futureDate
+	 * @param futureDate is a future date that will be used to get the days difference
 	 * @return the number of days between those two dates (not including one of them). For instance between 2010-01-25 and 2010-01-26, there is 1 day.
 	 */
 	public int getDaysToReach(Date futureDate) {
 		return getHoursToReach(futureDate) / 24;
 	}
 
+	/**
+	 *
+	 * @return if the date is in the future (using the current time as reference)
+	 */
 	public boolean isFuture() {
 		return calendar.after(Calendar.getInstance());
 	}
 
+	/**
+	 * @return if the date object hold by this builder
+	 */
 	public Date getDate() {
 		return calendar.getTime();
 	}
@@ -166,7 +183,7 @@ public class DateConstant {
 	/**
 	 * Warning : date must be trimed before
 	 *
-	 * @return
+	 * @return a Time object
 	 */
 	public Time getTime() {
 		return new Time(calendar.getTimeInMillis());
@@ -175,7 +192,7 @@ public class DateConstant {
 	/**
 	 * Returns the month value for the current builder's date. 1 = january, ... 12 = december
 	 *
-	 * @return
+	 * @return a value between 1 and 12
 	 */
 	public int getHumanMonth() {
 		int month = calendar.get(Calendar.MONTH);
@@ -185,7 +202,7 @@ public class DateConstant {
 	/**
 	 * Return the current builder's date day of month
 	 *
-	 * @return
+	 * @return a value between 1 and 31
 	 */
 	public int getDayOfMonth() {
 		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
@@ -197,7 +214,7 @@ public class DateConstant {
 	 *
 	 * @param format is a DataFormat, common format strings can be found on DateUtils class
 	 * @param locale is the locate to use for formatting
-	 * @return
+	 * @return the formatted date
 	 */
 	public String toString(String format, Locale locale) {
 		DateFormat dateFormat = new SimpleDateFormat(format, locale);
@@ -208,7 +225,7 @@ public class DateConstant {
 	 * Format the date using a java DateFormat
 	 *
 	 * @param format is a DataFormat, common format strings can be found on DateUtils class
-	 * @return
+	 * @return the formatted date
 	 */
 	public String toString(String format) {
 		DateFormat dateFormat = new SimpleDateFormat(format);
@@ -218,7 +235,7 @@ public class DateConstant {
 	/**
 	 * Return the current builder's date day of week
 	 *
-	 * @return
+	 * @return 1 for Sunday, 2 for Monday, ... 7 for Saturday
 	 */
 	public int getDayOfWeek() {
 		int dayOfweek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -255,7 +272,7 @@ public class DateConstant {
 	/**
 	 * Outputs a local date time (no Z or +-01:00)
 	 *
-	 * @return
+	 * @return the formatted date
 	 */
 	public String toISO8601Local() {
 		return toISO8601Local(false);
@@ -265,7 +282,7 @@ public class DateConstant {
 	 * Outputs a local date time (no Z or +-01:00)
 	 *
 	 * @param forceMilliseconds if true,0 will be appended up to milliseconds if it's zero
-	 * @return
+	 * @return the formatted date
 	 */
 	public String toISO8601Local(boolean forceMilliseconds) {
 		String result = toISO8601LocalDateTime();
@@ -283,7 +300,7 @@ public class DateConstant {
 	/**
 	 * Outputs a date time with time zone(with Z or +-01:00)
 	 *
-	 * @return
+	 * @return the formatted date
 	 */
 	public String toISO8601WithTimeZone() {
 		return toISO8601OffsetDateTime();
@@ -292,19 +309,18 @@ public class DateConstant {
 	/**
 	 * Produces a String in ISO8601 format as an offset datetime, with time zone like 2014-02-07T16:25+01:00
 	 *
-	 * @param date
-	 * @return
+	 * @return the formatted date
 	 */
 	public String toISO8601OffsetDateTime() {
 		return toOffsetDateTime().toString();
 	}
 
 	/**
-	 * Produces a Zulu Time ISO8601 String representation of the given date.<br/>
+	 * Produces a Zulu Time ISO8601 String representation of the given date.<br>
 	 * Eg: 2023-03-15T15:03:12 UTC+1 whould be rendered as 2023-03-15T14:03:12Z
 	 *
-	 * @param date
-	 * @return
+	 * @param truncatedTo is the temporal unit to which the date should be truncated
+	 * @return a zulu time string
 	 */
 	public String toISO8601ZuluTime(TemporalUnit truncatedTo) {
 		OffsetDateTime offsetDateTime = toOffsetDateTime();
@@ -318,8 +334,8 @@ public class DateConstant {
 	/**
 	 * Formats the given date using the given timestamp format in french locale
 	 *
-	 * @param timestamp
-	 * @return
+	 * @param timeStampFormat is format to user
+	 * @return the formatted date
 	 */
 	public String toTimestampUsingFormatInFrench(String timeStampFormat) {
 		DateFormat dateFormat = new SimpleDateFormat(timeStampFormat, Locale.FRENCH);
@@ -329,8 +345,7 @@ public class DateConstant {
 	/**
 	 * Produces a String in ISO8601 format as a local datetime, no time zone like 2014-02-07T16:25
 	 *
-	 * @param date
-	 * @return
+	 * @return the formatted date
 	 */
 	public String toISO8601LocalDateTime() {
 		return toLocalDateTime().toString();
@@ -339,8 +354,7 @@ public class DateConstant {
 	/**
 	 * Converts date to OffsetDateTime using the current time zone
 	 *
-	 * @param date
-	 * @return
+	 * @return the offset date time object
 	 */
 	public OffsetDateTime toOffsetDateTime() {
 		return OffsetDateTime.ofInstant(Instant.ofEpochMilli(getDate().getTime()), ZoneId.systemDefault());
@@ -349,8 +363,7 @@ public class DateConstant {
 	/**
 	 * Converts date to LocalDateTime using the current time zone
 	 *
-	 * @param date
-	 * @return
+	 * @return local date time object
 	 */
 	public LocalDateTime toLocalDateTime() {
 		return LocalDateTime.ofInstant(Instant.ofEpochMilli(getDate().getTime()), ZoneId.systemDefault());
@@ -359,7 +372,7 @@ public class DateConstant {
 	/**
 	 * Returns this date constant current date and time in a Zulu Time formatted string.
 	 *
-	 * @return
+	 * @return the formatted date
 	 */
 	public String toISO8601ZuluTimeNoMillis() {
 		return toISO8601ZuluTime(ChronoUnit.SECONDS);
@@ -403,14 +416,14 @@ public class DateConstant {
 	/**
 	 * Formats the date to yyyy-MM-dd-HH-mm
 	 *
-	 * @return
+	 * @return the date formatted
 	 */
 	public String toDateTimeForFile() {
 		return toString(DATE_TIME_FOR_FILE_FORMAT);
 	}
 
 	/**
-	 *
+	 * @param day the DateConstant to compare with
 	 * @return true if the day is the same as the argument
 	 */
 	public boolean isSameDay(DateConstant day) {
@@ -450,20 +463,16 @@ public class DateConstant {
 	}
 
 	/**
-	 * Return true if the current datebuilder's date is equals(date) or after(date)
-	 *
-	 * @param date
-	 * @return
+	 * @param date to compare with
+	 * @return true if the current datebuilder's date is equals(date) or after(date)
 	 */
 	public boolean isSameOrAfter(Date date) {
 		return this.getDate().equals(date) || this.getDate().after(date);
 	}
 
 	/**
-	 * Return true if the current datebuilder's date is equals(date) or before(date)
-	 *
-	 * @param date
-	 * @return
+	 * @param date to compare with
+	 * @return true if the current datebuilder's date is equals(date) or before(date)
 	 */
 	public boolean isSameOrBefore(Date date) {
 		return this.getDate().equals(date) || this.getDate().before(date);
@@ -480,9 +489,9 @@ public class DateConstant {
 	}
 
 	/**
-	 * Returns the age of this builder's date. Age is
+	 * Returns the age of this builder's date. Age is computed in years.
 	 *
-	 * @return
+	 * @return a string representing the age in years
 	 */
 	public String toAge() {
 		LocalDate startDateInclusive = getLocalDate();

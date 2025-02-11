@@ -4,9 +4,20 @@
 
 We (La Roue Verte) are sharing this library we've built during years to ease handling java dates. We share it with the community.
 
-This code is licensed in Gnu GPL v3
+This code is licensed in Gnu GPL v3.
 
 All comments and suggestions are welcomed !
+
+## Installation
+### Maven
+```xml
+<dependency>
+	<groupId>com.laroueverte</groupId>
+	<artifactId>datebuilder</artifactId>
+	<version>1.0.0</version>
+</dependency>
+```
+
 
 ## Usage
 DateBuilder class contains several "builder" methods to create a new date : 
